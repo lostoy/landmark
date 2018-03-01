@@ -29,7 +29,6 @@ class FlatClassify(nn.Module, ConfigWrapper):
         self.forward_ptr = ptr
 
     def forward(self, inp):
-        print(inp.size())
         features = self.basenet(inp)
         features = self.forward_pool(features)
 

@@ -3,7 +3,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from models.pretrained.inceptionresnetv2 import pretrained_settings
 import torch
 resize_size = pretrained_settings['inceptionresnetv2']['imagenet']['resize_size']
-input_size = pretrained_settings['inceptionresnetv2']['imagenet']['input_size'][0]
+input_size = pretrained_settings['inceptionresnetv2']['imagenet']['input_size'][1]
 mean = pretrained_settings['inceptionresnetv2']['imagenet']['mean']
 std = pretrained_settings['inceptionresnetv2']['imagenet']['std']
 
