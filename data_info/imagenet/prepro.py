@@ -1,8 +1,8 @@
 import os
 import json
 
-train_basedir = '../data/imagenet/train'
-val_basedir = '../data/imagenet/val'
+train_basedir = '../../data/imagenet/train'
+val_basedir = '../../data/imagenet/val'
 
 def get_vocab():
     synset_names = sorted(os.listdir(train_basedir))
