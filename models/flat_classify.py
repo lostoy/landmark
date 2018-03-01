@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import torch.utils.model_zoo as model_zoo
 from torch.autograd import Variable
 from tools.config_wrapper import ConfigWrapper
-from models.pretrained.inceptionresnetv2 import inceptionresnetv2
+from models.pretrained.inceptionresnetv2 import inceptionresnetv2_feature
 
 class FlatClassify(nn.Module, ConfigWrapper):
     def __init__(self, n_class):
@@ -12,7 +12,7 @@ class FlatClassify(nn.Module, ConfigWrapper):
         ConfigWrapper.__init__(self, attrs)
         nn.Module.__init__(self,)
 
-        self.basenet = inceptionresnetv2('imagenet')
+        self.basenet = inceptionresnetv2_feature('imagenet')
 
         self.relu = nn.ReLU()
         self.avgpool_1a = nn.AvgPool2d(8, count_include_pad=False)
