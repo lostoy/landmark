@@ -25,18 +25,25 @@ class ImageDataset(Dataset, ConfigWrapper):
         t_n_sample = None
         for mod_name in self.dataset_info['modality'].keys():
             mod = self.dataset_info['modality'][mod_name]
-            if os.path.exists(os.path.join(info_basedir, '{}_{}_{}.json.zip'.format(phase, mod_name, split))):
+            if os.path.exists(os.path.join(info_basedir, '{}_{}_{}.json'.format(phase, mod_name, split))):
+                with open(os.path.join(info_basedir, '{}_{}_{}.json'.format(phase, mod_name, split)), 'r') as f:
+                    infos[mod_name] = json.load(f)
+
+            elif os.path.exists(os.path.join(info_basedir, '{}_{}_{}.json.zip'.format(phase, mod_name, split))):
                 with zipfile.ZipFile(os.path.join(info_basedir, '{}_{}_{}.json.zip'.format(phase, mod_name, split)), 'r') as f:
 
                     infos[mod_name] = json.loads(f.read('{}_{}_{}.json'.format(phase, mod_name, split)).decode("utf-8"))
-                    if t_n_sample is None:
-                        t_n_sample = len(infos[mod_name])
-                    else:
-                        if len(infos[mod_name]) != t_n_sample:
-                            RuntimeError('sample number wrong for modality {}'.format(mod_name))
             else:
                 print('warning, missing info for modal:{}'.format(mod_name))
-            # register mode loader
+
+            if mod_name in infos:
+                if t_n_sample is None:
+                    t_n_sample = len(infos[mod_name])
+                else:
+                    if len(infos[mod_name]) != t_n_sample:
+                        RuntimeError('sample number wrong for modality {}'.format(mod_name))
+                        # register mode loader
+
             self.__setattr__('get_{}'.format(mod_name), lambda item, context: self._get_mode(mod_name, item, context))
         self.infos = infos
         # sample iterator
@@ -59,7 +66,11 @@ class ImageDataset(Dataset, ConfigWrapper):
 
     def _get_mode(self, mode, item, context):
         item = self.n_sample_ind_iter[item]
-        img_name = list(self.infos.values())[0][item]['id']
+        if 'img_name' in list(self.infos.values())[0][item]:
+            img_name = list(self.infos.values())[0][item]['img_name']
+        else:
+            img_name = list(self.infos.values())[0][item]['id']
+
 
         mode_path = os.path.join(self.dataset_info['modality'][mode]['mode_basedir'],
                                  img_name + self.dataset_info['modality'][mode]['mode_ext'])
@@ -73,8 +84,13 @@ class ImageDataset(Dataset, ConfigWrapper):
 
     def get_img_name(self, item, context):
         item = self.n_sample_ind_iter[item]
-        img_name = self.infos.values()[0][item]['id']
-        context['id'] = img_name
+        if 'img_name' in list(self.infos.values())[0][item]:
+            img_name = list(self.infos.values())[0][item]['img_name']
+            context['img_name'] = img_name
+        else:
+            img_name = list(self.infos.values())[0][item]['id']
+            context['id'] = img_name
+
         return img_name
 
     def get_label(self, item, context):
