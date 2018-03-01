@@ -19,26 +19,30 @@ def prepare_dataset(context):
     for info_basedir in args.info_basedir:
         t_train_dataset = ImageDataset(info_basedir=info_basedir, phase='train', split='0', to_read=('img', 'label'),
                                        transformer=dict(img=transforms.Compose([
-                                         transforms.ToPILImage(),
-                                         transforms.Scale(resize_size),
-                                         transforms.RandomSizedCrop(input_size),
-                                         transforms.RandomHorizontalFlip(),
-                                         transforms.ToTensor(),
-                                         transforms.Normalize(mean=mean,
-                                                              std=std)
-                                     ])),
-                                     run_n_sample=args.max_step*args.batch_size, shuffle=True)
+                                           transforms.ToPILImage(),
+                                           transforms.Scale(resize_size),
+                                           transforms.RandomSizedCrop(input_size),
+                                           transforms.RandomHorizontalFlip(),
+                                           transforms.ToTensor(),
+                                           transforms.Normalize(mean=[0, 0, 0],
+                                                                std=[1./255, 1./255, 1./255]),
+                                           transforms.Normalize(mean=mean,
+                                                                std=std)
+                                       ])),
+                                       run_n_sample=args.max_step*args.batch_size, shuffle=True)
 
         t_test_dataset = ImageDataset(info_basedir=info_basedir, phase='valid', split='0', to_read=('img', 'label'),
                                       transformer=dict(img=transforms.Compose([
-                                        transforms.ToPILImage(),
-                                        transforms.Scale(resize_size),
-                                        transforms.CenterCrop(input_size),
-                                        transforms.ToTensor(),
-                                        transforms.Normalize(mean=mean,
-                                                              std=std)
-                                    ])),
-                                    run_n_sample=0, shuffle=False)
+                                          transforms.ToPILImage(),
+                                          transforms.Scale(resize_size),
+                                          transforms.CenterCrop(input_size),
+                                          transforms.ToTensor(),
+                                          transforms.Normalize(mean=[0, 0, 0],
+                                                               std=[1. / 255, 1. / 255, 1. / 255]),
+                                          transforms.Normalize(mean=mean,
+                                                               std=std)
+                                      ])),
+                                      run_n_sample=0, shuffle=False)
 
         t_train_loader = DataLoader(t_train_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.n_worker,
                                     pin_memory=True)

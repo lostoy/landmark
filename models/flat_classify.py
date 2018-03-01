@@ -17,7 +17,7 @@ class FlatClassify(nn.Module, ConfigWrapper):
         self.global_pool = nn.AvgPool2d(7, stride=1, padding=0, ceil_mode=True, count_include_pad=True)
 
         for i, n in enumerate(n_class):
-            self.__setattr__('fcs_{}'.format(i), nn.Linear(1536, n))
+            self.__setattr__('fcs_{}'.format(i), nn.Linear(1024, n))
 
         self.forward_ptr = [0]
 
