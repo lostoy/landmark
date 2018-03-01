@@ -64,8 +64,8 @@ def resize_img(img_name):
     in_dir = sys.argv[1]
     out_dir = sys.argv[2]
 
-    if not os.path.exists(os.path.join(in_dir, img_name[0]+'.jpg')):
-        download_image(img_name)
+    # if not os.path.exists(os.path.join(in_dir, img_name[0]+'.jpg')):
+    #     download_image(img_name)
     try:
         img = Image.open(os.path.join(in_dir, img_name[0]+'.jpg'))
         img = img.resize((354, 354), Image.ANTIALIAS)
