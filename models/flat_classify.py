@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import torch.utils.model_zoo as model_zoo
 from torch.autograd import Variable
 from tools.config_wrapper import ConfigWrapper
-from models.pretrained.inceptionresnetv2 import inceptionresnetv2_feature
+from models.pretrained.bninception import bninception_feature
 
 class FlatClassify(nn.Module, ConfigWrapper):
     def __init__(self, n_class):
@@ -12,10 +12,9 @@ class FlatClassify(nn.Module, ConfigWrapper):
         ConfigWrapper.__init__(self, attrs)
         nn.Module.__init__(self,)
 
-        self.basenet = inceptionresnetv2_feature('imagenet')
+        self.basenet = bninception_feature('imagenet')
 
-        self.relu = nn.ReLU()
-        self.avgpool_1a = nn.AvgPool2d(8, count_include_pad=False)
+        self.global_pool = nn.AvgPool2d(7, stride=1, padding=0, ceil_mode=True, count_include_pad=True)
 
         for i, n in enumerate(n_class):
             self.__setattr__('fcs_{}'.format(i), nn.Linear(1536, n))
@@ -23,7 +22,7 @@ class FlatClassify(nn.Module, ConfigWrapper):
         self.forward_ptr = [0]
 
     def forward_pool(self, features):
-        x = self.avgpool_1a(features)
+        x = self.global_pool(features)
         x = x.view(x.size(0), -1)
         return x
     def set_forward_ptr(self, ptr):
