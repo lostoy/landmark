@@ -66,6 +66,7 @@ def train(context):
     timer.tic()
 
     while True:
+        timer.tic()
         # advance dataset pointer, the datasets are visited in a round-robin style
         inputs = None
         n_trial = 0
@@ -145,6 +146,7 @@ def validate(context, force_validate=False, is_test=False, force_save=False):
 
     val_iter = 0
     while True:
+        timer.tic()
         # advance dataset pointer, the datasets are visited in a round-robin style
         inputs = None
         n_trial = 0
