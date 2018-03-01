@@ -26,7 +26,7 @@ def parse_data(data_file):
 
 
 def download_image(key_url):
-    out_dir = sys.argv[2]
+    out_dir = sys.argv[1]
     (key, url) = key_url
     filename = os.path.join(out_dir, '{}.jpg'.format(key))
 
