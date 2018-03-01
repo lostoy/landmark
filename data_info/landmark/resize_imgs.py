@@ -65,9 +65,10 @@ def resize_img(img_name):
     try:
         img = Image.open(os.path.join(out_dir, img_name))
     except:
-        return
+        return 1
     img = img.resize((354, 354), Image.ANTIALIAS)
     img.save(os.path.join(out_dir, img_name))
+    return 0
 
 def loader():
     if len(sys.argv) != 2:
