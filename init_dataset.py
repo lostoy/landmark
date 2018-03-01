@@ -18,7 +18,7 @@ def prepare_dataset(context):
 
     for info_basedir in args.info_basedir:
         t_train_dataset = ImageDataset(info_basedir=info_basedir, phase='train', split='0', to_read=('img', 'label'),
-                                       transformer=dict(rgb=transforms.Compose([
+                                       transformer=dict(img=transforms.Compose([
                                          transforms.ToPILImage(),
                                          transforms.Scale(resize_size),
                                          transforms.RandomSizedCrop(input_size),
@@ -30,7 +30,7 @@ def prepare_dataset(context):
                                      run_n_sample=args.max_step*args.batch_size, shuffle=True)
 
         t_test_dataset = ImageDataset(info_basedir=info_basedir, phase='valid', split='0', to_read=('img', 'label'),
-                                      transformer=dict(rgb=transforms.Compose([
+                                      transformer=dict(img=transforms.Compose([
                                         transforms.ToPILImage(),
                                         transforms.Scale(resize_size),
                                         transforms.CenterCrop(input_size),
