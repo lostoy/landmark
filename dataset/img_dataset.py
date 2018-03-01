@@ -52,7 +52,7 @@ class ImageDataset(Dataset, ConfigWrapper):
             if shuffle:
                 iter_epoch = np.random.permutation(self.n_sample).tolist()
             else:
-                iter_epoch = range(self.n_sample)
+                iter_epoch = list(range(self.n_sample))
             n_sample_ind_iter = n_sample_ind_iter + iter_epoch
         n_sample_ind_iter = n_sample_ind_iter[:self.run_n_sample]
         self.n_sample_ind_iter = n_sample_ind_iter
