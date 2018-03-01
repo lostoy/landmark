@@ -28,7 +28,7 @@ class ImageDataset(Dataset, ConfigWrapper):
             if os.path.exists(os.path.join(info_basedir, '{}_{}_{}.json.zip'.format(phase, mod_name, split))):
                 with zipfile.ZipFile(os.path.join(info_basedir, '{}_{}_{}.json.zip'.format(phase, mod_name, split)), 'r') as f:
 
-                    infos[mod_name] = json.loads(f.read('{}_{}_{}.json'.format(phase, mod_name, split)))
+                    infos[mod_name] = json.loads(f.read('{}_{}_{}.json'.format(phase, mod_name, split)).decode("utf-8"))
                     if t_n_sample is None:
                         t_n_sample = len(infos[mod_name])
                     else:
