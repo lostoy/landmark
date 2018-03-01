@@ -25,7 +25,7 @@ class ImageDataset(Dataset, ConfigWrapper):
         t_n_sample = None
         for mod_name in self.dataset_info['modality'].keys():
             mod = self.dataset_info['modality'][mod_name]
-            if os.path.exists(os.path.join(info_basedir, '{}_{}_{}.json'.format(phase, mod_name, split))):
+            if os.path.exists(os.path.join(info_basedir, '{}_{}_{}.json.zip'.format(phase, mod_name, split))):
                 with zipfile.ZipFile(os.path.join(info_basedir, '{}_{}_{}.json.zip'.format(phase, mod_name, split)), 'r') as f:
 
                     infos[mod_name] = json.loads(f.read('{}_{}_{}.json'.format(phase, mod_name, split)))
