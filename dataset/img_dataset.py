@@ -79,7 +79,7 @@ class ImageDataset(Dataset, ConfigWrapper):
 
     def get_label(self, item, context):
         item = self.n_sample_ind_iter[item]
-        info = self.infos.values()[0][item]
+        info = list(self.infos.values())[0][item]
         label = info['label']
         if isinstance(label, list):
             label = ' '.join([str(l) for l in label])
