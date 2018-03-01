@@ -61,11 +61,13 @@ def download_image(key_url):
     return 0
 
 def resize_img(img_name):
-    out_dir = sys.argv[1]
+    in_dir = sys.argv[1]
+    out_dir = sys.argv[2]
     try:
         img = Image.open(os.path.join(out_dir, img_name))
         img = img.resize((354, 354), Image.ANTIALIAS)
         img.save(os.path.join(out_dir, img_name))
+        os.remove(os.path.join(in_dir, img_name))
     except:
         img = Image.new('RGB', (354, 354))
         img.save(os.path.join(out_dir, img_name))
@@ -73,16 +75,23 @@ def resize_img(img_name):
     return 0
 
 def loader():
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 4:
         print('Syntax: {} <data_file.csv> <output_dir/>'.format(sys.argv[0]))
         sys.exit(0)
-    out_dir = sys.argv[1]
 
-    if not os.path.exists(out_dir):
-        os.mkdir(out_dir)
+    in_dir = sys.argv[1]
+    out_dir = sys.argv[2]
+    data_file = sys.argv[3]
 
-    #key_url_list = parse_data(data_file)
-    img_names = os.listdir(out_dir)
+    if not os.path.exists(in_dir):
+        os.mkdir(in_dir)
+
+    key_url_list = [en+'.jpg' for en in parse_data(data_file)]
+
+    exist_img_names = os.listdir(out_dir)
+
+    img_names = list(set(key_url_list)-set(exist_img_names))
+
     pool = multiprocessing.Pool(processes=20)  # Num of CPUs
     failures = sum(tqdm.tqdm(pool.imap_unordered(resize_img, img_names), total=len(img_names)))
     print('Total number of download failures:', failures)
