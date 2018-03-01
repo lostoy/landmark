@@ -91,12 +91,10 @@ def loader():
 
     key_url_list = parse_data(data_file)
 
-    exist_img_names = os.listdir(out_dir)
+    exist_img_names = set(os.listdir(out_dir))
 
-    img_names = []
-    for en in tqdm.tqdm(key_url_list):
-        if en[0]+'.jpg' not in set(exist_img_names):
-            img_names.append(en)
+    img_names = set([en[0]+'.jpg' for en in key_url_list])
+    img_names = list(img_names - exist_img_names)
 
     pool = multiprocessing.Pool(processes=20)  # Num of CPUs
     failures = sum(tqdm.tqdm(pool.imap_unordered(resize_img, img_names), total=len(img_names)))
