@@ -86,7 +86,7 @@ def loader():
     if not os.path.exists(in_dir):
         os.mkdir(in_dir)
 
-    key_url_list = [en+'.jpg' for en in parse_data(data_file)]
+    key_url_list = [en[0]+'.jpg' for en in parse_data(data_file)]
 
     exist_img_names = os.listdir(out_dir)
 
