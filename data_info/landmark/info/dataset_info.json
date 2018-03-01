@@ -1,0 +1,13 @@
+{
+  "n_class":14951 ,
+  "modality":
+  {
+    "img":
+    {
+      "mode_ext": ".jpg",
+      "mode_format": "img",
+      "mode_basedir": "./data/train",
+      "config": {}
+    }
+  }
+}

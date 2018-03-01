@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script>
+        var img_infos = {{infos|tojson}};
+    </script>
+
+    <script>
+        function load_visible() {
+            var top = $(document).scrollTop(), bottom = top + $(window).height();
+            var results = $('#imgs > div');
+            var imgs = $('#imgs > div > img');
+            for (var i = 0; i < results.length; i++) {
+                var div = results.eq(i);
+                var y1 = div.position().top, y2 = y1 + div.height();
+
+                imgs[i].src = img_infos[i]['url'];
+            }
+        }
+
+        function init() {
+            $('#imgs').html('');
+            var imgs = $('#imgs');
+
+            for (var i = 0; i < img_infos.length; i++) {
+                var new_img = $('<img/>', {width: "320", height: "200", src: ''});
+                $('<div class="col-lg-2">')
+                    .append(new_img)
+                    .appendTo('#imgs');
+
+            }
+            load_visible();
+        }
+        $(window).scroll(load_visible);
+
+    </script>
+
+</head>
+
+<body onload="init()">
+<div class="container-fluid wrapper">
+    <h1> ldmk_id: {{ ldmkd_id }}, # of images: {{ n_img }}</h1>
+    <div class="col-lg-12" id="imgs">
+
+    </div>
+</div>
+</body>
+</html>
