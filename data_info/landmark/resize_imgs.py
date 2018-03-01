@@ -64,17 +64,17 @@ def resize_img(img_name):
     in_dir = sys.argv[1]
     out_dir = sys.argv[2]
 
-    if not os.path.exists(os.path.join(in_dir, img_name)):
+    if not os.path.exists(os.path.join(in_dir, img_name[0]+'.jpg')):
         download_image(img_name)
     try:
-        img = Image.open(os.path.join(in_dir, img_name))
+        img = Image.open(os.path.join(in_dir, img_name[0]+'.jpg'))
         img = img.resize((354, 354), Image.ANTIALIAS)
-        img.save(os.path.join(out_dir, img_name))
-        os.remove(os.path.join(in_dir, img_name))
+        img.save(os.path.join(out_dir, img_name[0]+'.jpg'))
+        os.remove(os.path.join(in_dir, img_name[0]+'.jpg'))
     except:
-        print('cannot do {}'.format(img_name))
+        print('cannot do {}'.format(img_name[0]+'.jpg'))
         img = Image.new('RGB', (354, 354))
-        img.save(os.path.join(out_dir, img_name))
+        img.save(os.path.join(out_dir, img_name[0]+'.jpg'))
         return 1
     return 0
 
