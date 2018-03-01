@@ -201,6 +201,9 @@ def forward_net(inputs, context, training=True):
     # @interface
     imgs, labels = inputs['imgs'], inputs['labels']
 
+    if args.gpu_id:
+        labels = labels.cuda(args.gpu_id[0])
+
     imgs_var = Variable(imgs)
     labels_var = Variable(labels)
 
