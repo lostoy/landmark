@@ -33,6 +33,8 @@ class FlatClassify(nn.Module, ConfigWrapper):
 
     def forward(self, inp):
         features = self.basenet(inp)
+        features = self.forward_pool(features)
+
         outs = []
         for i in range(len(self.n_class)):
             if i in self.forward_ptr:
