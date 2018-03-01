@@ -64,10 +64,12 @@ def resize_img(img_name):
     out_dir = sys.argv[1]
     try:
         img = Image.open(os.path.join(out_dir, img_name))
+        img = img.resize((354, 354), Image.ANTIALIAS)
+        img.save(os.path.join(out_dir, img_name))
     except:
+        img = Image.new('RGB', (354, 354))
+        img.save(os.path.join(out_dir, img_name))
         return 1
-    img = img.resize((354, 354), Image.ANTIALIAS)
-    img.save(os.path.join(out_dir, img_name))
     return 0
 
 def loader():
