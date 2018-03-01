@@ -94,8 +94,8 @@ def loader():
     exist_img_names = os.listdir(out_dir)
 
     img_names = []
-    for en in key_url_list:
-        if en[0]+'.jpg' not in exist_img_names:
+    for en in tqdm.tqdm(key_url_list):
+        if en[0]+'.jpg' not in set(exist_img_names):
             img_names.append(en)
 
     pool = multiprocessing.Pool(processes=20)  # Num of CPUs
