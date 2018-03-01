@@ -43,8 +43,6 @@ def parse_args():
     if args.run_id == '':
         args.run_id = id_generator()
         print('run_id: {}'.format(args.run_id))
-    if args.update_every_step == -1:
-        args.update_every_step = 128/args.batch_size
 
     if args.max_step == -1:
         args.max_step = 3500
