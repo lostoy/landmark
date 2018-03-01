@@ -37,10 +37,12 @@ def prepare_model(context):
     # crit = []
     # for _ in train_dataset:
     #     crit.append(nn.CrossEntropyLoss())
-    # if args.gpu_id:
-    #     model = model.cuda(args.gpu_id[0])
-    # else:
-    #     model = model.float()
+
+
+    if args.gpu_id:
+        model = model.cuda(args.gpu_id[0])
+    else:
+        model = model.float()
 
     optimizer = optim.SGD(params=model.parameters(), lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
 

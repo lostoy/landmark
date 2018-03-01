@@ -32,7 +32,6 @@ class FlatClassify(nn.Module, ConfigWrapper):
         self.forward_ptr = ptr
 
     def forward(self, inp):
-        print(inp.size())
         features = self.forward(inp)
         outs = []
         for i in range(len(self.n_class)):
