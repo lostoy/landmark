@@ -38,8 +38,7 @@ def prepare_model(context):
     # for _ in train_dataset:
     #     crit.append(nn.CrossEntropyLoss())
 
-
-    if args.gpu_id:
+    if args.gpu_id is not None:
         model = model.cuda(args.gpu_id[0])
     else:
         model = model.float()

@@ -17,7 +17,8 @@ class FlatClassify(nn.Module, ConfigWrapper):
         self.relu = nn.ReLU()
         self.avgpool_1a = nn.AvgPool2d(8, count_include_pad=False)
 
-        self.fcs = [nn.Linear(1536, n) for n in n_class]
+        for i, n in enumerate(n_class):
+            self.__setattr__('fcs_{}'.format(i), nn.Linear(1536, n))
 
         self.forward_ptr = [0]
 
@@ -35,6 +36,6 @@ class FlatClassify(nn.Module, ConfigWrapper):
         outs = []
         for i in range(len(self.n_class)):
             if i in self.forward_ptr:
-                fc = self.fcs[i](features)
+                fc = self.__getattr__('fcs_{}'.format(i))(features)
                 outs.append(fc)
         return outs
