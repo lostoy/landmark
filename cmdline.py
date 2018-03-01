@@ -32,6 +32,7 @@ def parse_args():
 
     parser.add_argument('--save_every_step', default=400, type=float)
     parser.add_argument('--update_every_step', default=1, type=int)
+    parser.add_argument('--log_every_step', default=1, type=int)
 
     parser.add_argument('--evaluate', default=0, type=int)
 

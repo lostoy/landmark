@@ -109,7 +109,7 @@ def train(context):
 
         batch_time.update(timer.toc())
 
-        if context['step'] % 10 == 0:
+        if context['step'] % context['args'].log_every_step == 0:
             forward_log(batch, context, training=True, dump_meter=True)
 
         validate(context, force_validate=False, is_test=False, force_save=False)
