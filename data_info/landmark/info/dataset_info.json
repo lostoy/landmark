@@ -6,7 +6,7 @@
     {
       "mode_ext": ".jpg",
       "mode_format": "img",
-      "mode_basedir": "./data/train",
+      "mode_basedir": "./data/train_354",
       "config": {}
     }
   }
