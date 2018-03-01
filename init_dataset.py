@@ -1,11 +1,11 @@
 from dataset.img_dataset import ImageDataset
 from torch.utils.data import DataLoader, TensorDataset
-from models.pretrained import pretrained_settings
+from models.pretrained.inceptionresnetv2 import pretrained_settings
 import torch
-resize_size = pretrained_settings['nasnetalarge']['imagenet']['resize_size']
-input_size = pretrained_settings['nasnetalarge']['imagenet']['input_size'][0]
-mean = pretrained_settings['nasnetalarge']['imagenet']['mean']
-std = pretrained_settings['nasnetalarge']['imagenet']['std']
+resize_size = pretrained_settings['inceptionresnetv2']['imagenet']['resize_size']
+input_size = pretrained_settings['inceptionresnetv2']['imagenet']['input_size'][0]
+mean = pretrained_settings['inceptionresnetv2']['imagenet']['mean']
+std = pretrained_settings['inceptionresnetv2']['imagenet']['std']
 
 def prepare_dataset(context):
     args = context['args']

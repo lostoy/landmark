@@ -11,6 +11,7 @@ pretrained_settings = {
         'imagenet': {
             'url': 'http://data.lip6.fr/cadene/pretrainedmodels/inceptionresnetv2-520b38e4.pth',
             'input_space': 'RGB',
+'resize_size': 256,
             'input_size': [3, 299, 299],
             'input_range': [0, 1],
             'mean': [0.5, 0.5, 0.5],
@@ -20,6 +21,7 @@ pretrained_settings = {
         'imagenet+background': {
             'url': 'http://data.lip6.fr/cadene/pretrainedmodels/inceptionresnetv2-520b38e4.pth',
             'input_space': 'RGB',
+            'resize_size': 256,
             'input_size': [3, 299, 299],
             'input_range': [0, 1],
             'mean': [0.5, 0.5, 0.5],
