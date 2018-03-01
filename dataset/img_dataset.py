@@ -59,7 +59,7 @@ class ImageDataset(Dataset, ConfigWrapper):
 
     def _get_mode(self, mode, item, context):
         item = self.n_sample_ind_iter[item]
-        img_name = self.infos.values()[0][item]['id']
+        img_name = list(self.infos.values())[0][item]['id']
 
         mode_path = os.path.join(self.dataset_info['modality'][mode]['mode_basedir'],
                                  img_name + self.dataset_info['modality'][mode]['mode_ext'])
