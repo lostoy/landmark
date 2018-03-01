@@ -1,6 +1,6 @@
 from dataset.img_dataset import ImageDataset
 from torch.utils.data import DataLoader, TensorDataset
-from models.nasnet import pretrained_settings
+from models.pretrained import pretrained_settings
 import torch
 resize_size = pretrained_settings['nasnetalarge']['imagenet']['resize_size']
 input_size = pretrained_settings['nasnetalarge']['imagenet']['input_size'][0]
