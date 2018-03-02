@@ -1,9 +1,9 @@
-from dataset.img_dataset import ImageDataset
-from torch.utils.data import DataLoader, TensorDataset
-
-import torch
 import importlib
-import numpy as np
+
+from torch.utils.data import DataLoader
+
+from dataset.img_dataset import ImageDataset
+
 
 def prepare_dataset(context):
     args = context['args']
@@ -47,9 +47,9 @@ def prepare_dataset(context):
                                       run_n_sample=0, shuffle=False)
 
         t_train_loader = DataLoader(t_train_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.n_worker,
-                                    pin_memory=True)
+                                    pin_memory=False)
         t_test_loader = DataLoader(t_test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.n_worker,
-                                   pin_memory=True)
+                                   pin_memory=False)
         train_dataset.append(t_train_dataset)
         train_loader.append(t_train_loader)
 

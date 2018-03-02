@@ -1,6 +1,7 @@
-import string
-import random
 import argparse
+import random
+import string
+
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -38,6 +39,7 @@ def parse_args():
 
     parser.add_argument('--info_basedir', nargs='+', type=str)
     parser.add_argument('--split', default='0', type=str)
+    parser.add_argument('--basenet_name', type=str)
 
     args = parser.parse_args()
     if args.run_id == '':

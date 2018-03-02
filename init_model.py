@@ -1,4 +1,3 @@
-import torch
 from torch import optim
 def prepare_model(context):
     train_dataset = context['train_dataset']
@@ -7,7 +6,7 @@ def prepare_model(context):
     from torch import nn
     from models.flat_classify import FlatClassify
 
-    model = FlatClassify([t.n_class for t in train_dataset])
+    model = FlatClassify(args.basenet_name, [t.n_class for t in train_dataset], False)
     crit = []
     for _ in train_dataset:
         crit.append(nn.CrossEntropyLoss())

@@ -1,0 +1,11 @@
+{
+  "n_class": 1000,
+  "modality": {
+    "img": {
+      "mode_ext": ".JPEG",
+      "mode_format": "img",
+      "mode_basedir": "./data/imagenet/",
+      "config": {}
+    }
+  }
+}
