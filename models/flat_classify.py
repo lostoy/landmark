@@ -4,33 +4,28 @@ import torch.nn.functional as F
 import torch.utils.model_zoo as model_zoo
 from torch.autograd import Variable
 from tools.config_wrapper import ConfigWrapper
-from models.pretrained.bninception import bninception_feature
+from models.pretrained import *
 
 class FlatClassify(nn.Module, ConfigWrapper):
-    def __init__(self, n_class):
+    def __init__(self, basenet_name, n_class, pretrain=True):
         attrs = locals()
         ConfigWrapper.__init__(self, attrs)
         nn.Module.__init__(self,)
 
-        self.basenet = bninception_feature('imagenet')
-
-        self.global_pool = nn.AvgPool2d(7, stride=1, padding=0, ceil_mode=True, count_include_pad=True)
+        self.basenet = globals()[basenet_name+'_feature']('imagenet' if pretrain else None)
 
         for i, n in enumerate(n_class):
-            self.__setattr__('fcs_{}'.format(i), nn.Linear(1024, n))
+            self.__setattr__('fcs_{}'.format(i), nn.Linear(self.basenet.feature_dim, n))
 
         self.forward_ptr = [0]
 
-    def forward_pool(self, features):
-        x = self.global_pool(features)
-        x = x.view(x.size(0), -1)
-        return x
     def set_forward_ptr(self, ptr):
         self.forward_ptr = ptr
 
     def forward(self, inp):
         features = self.basenet(inp)
-        features = self.forward_pool(features)
+        if self.basenet.pool:
+            features = self.basenet.pool(features)
 
         outs = []
         for i in range(len(self.n_class)):

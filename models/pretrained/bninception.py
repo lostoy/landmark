@@ -15,9 +15,9 @@ pretrained_settings = {
             'input_space': 'BGR',
             'resize_size': 256,
             'input_size': [3, 224, 224],
-            'input_range': [0, 255],
-            'mean': [104, 117, 128],
-            'std': [1, 1, 1],
+            'input_range': [0, 1.0],
+            'mean': [104/255.0, 117/255.0, 128/255.0],
+            'std': [1./255.0, 1./255.0, 1./255.0],
             'num_classes': 1000
         }
     }

@@ -1,14 +1,20 @@
 from dataset.img_dataset import ImageDataset
 from torch.utils.data import DataLoader, TensorDataset
-from models.pretrained.bninception import pretrained_settings
+
 import torch
-resize_size = pretrained_settings['bninception']['imagenet']['resize_size']
-input_size = pretrained_settings['bninception']['imagenet']['input_size'][1]
-mean = pretrained_settings['bninception']['imagenet']['mean']
-std = pretrained_settings['bninception']['imagenet']['std']
+import importlib
+import numpy as np
 
 def prepare_dataset(context):
     args = context['args']
+    basenet_name = args.basenet_name
+    basenet_module = importlib.import_module('models.pretrained.{}'.format(basenet_name))
+    pretrained_settings = basenet_module.pretrained_settings
+
+    resize_size = pretrained_settings[basenet_name]['imagenet']['resize_size']
+    input_size = pretrained_settings[basenet_name]['imagenet']['input_size'][1]
+    mean = pretrained_settings[basenet_name]['imagenet']['mean']
+    std = pretrained_settings[basenet_name]['imagenet']['std']
 
     from torchvision import transforms
     train_dataset = []
@@ -24,8 +30,6 @@ def prepare_dataset(context):
                                            transforms.RandomSizedCrop(input_size),
                                            transforms.RandomHorizontalFlip(),
                                            transforms.ToTensor(),
-                                           transforms.Normalize(mean=[0, 0, 0],
-                                                                std=[1./255, 1./255, 1./255]),
                                            transforms.Normalize(mean=mean,
                                                                 std=std)
                                        ])),
@@ -37,8 +41,6 @@ def prepare_dataset(context):
                                           transforms.Scale(resize_size),
                                           transforms.CenterCrop(input_size),
                                           transforms.ToTensor(),
-                                          transforms.Normalize(mean=[0, 0, 0],
-                                                               std=[1. / 255, 1. / 255, 1. / 255]),
                                           transforms.Normalize(mean=mean,
                                                                std=std)
                                       ])),

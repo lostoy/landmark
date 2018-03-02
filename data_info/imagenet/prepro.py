@@ -13,7 +13,7 @@ def get_infos(synset_names):
     w2i = {w:i for i, w in enumerate(synset_names)}
     train_infos = []
     val_infos = []
-    for split in ['train', 'val']:
+    for split in ['train', 'valid']:
         if split == 'train':
             basedir = train_basedir
             infos = train_infos
