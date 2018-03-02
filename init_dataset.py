@@ -33,7 +33,9 @@ def prepare_dataset(context):
                                            transforms.Normalize(mean=mean,
                                                                 std=std)
                                        ])),
-                                       run_n_sample=args.max_step*args.batch_size, shuffle=True)
+                                       run_n_sample=0,
+                                       # args.max_step*args.batch_size,
+                                       shuffle=False)
 
         t_test_dataset = ImageDataset(info_basedir=info_basedir, phase='valid', split='0', to_read=('img', 'label'),
                                       transformer=dict(img=transforms.Compose([
@@ -46,7 +48,8 @@ def prepare_dataset(context):
                                       ])),
                                       run_n_sample=0, shuffle=False)
 
-        t_train_loader = DataLoader(t_train_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.n_worker,
+        t_train_loader = DataLoader(t_train_dataset, batch_size=args.batch_size, shuffle=True,
+                                    num_workers=args.n_worker,
                                     pin_memory=False)
         t_test_loader = DataLoader(t_test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.n_worker,
                                    pin_memory=False)

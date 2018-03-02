@@ -1,21 +1,18 @@
 import os
-import torch.multiprocessing
-import time
-import numpy as np
-import torch.nn.utils
-import torch.nn.functional as F
 import sys
-import torch
+import time
 
+import torch
+import torch.multiprocessing
+import torch.nn.utils
 from torch.autograd.variable import Variable
-import json
 
 from cmdline import parse_args
 from init_dataset import prepare_dataset
-from init_model import prepare_model
 from init_logger import prepare_logger
-
+from init_model import prepare_model
 from metrics import step_adjust_learning_rate, poly_adjust_learning_rate, AverageMeter, accuracy, check_for_nan
+
 
 def prepare_stats(context):
     context['step'] = 0
@@ -43,7 +40,7 @@ def main():
     print('prepare dataset...')
     (train_dataset, train_loader), (test_dataset, test_loader) = prepare_dataset(context)
 
-    # prepare model
+    print('prepare model...')
     model, crit, optimizer = prepare_model(context)
 
     print('prepare logger...')
