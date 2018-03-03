@@ -207,7 +207,7 @@ def forward_net(inputs, context, training=True):
     imgs, labels = inputs['imgs'], inputs['labels']
 
     if args.gpu_id:
-        labels = labels.cuda(args.gpu_id[0])
+        labels = labels.cuda(args.gpu_id[0], async=True)
 
     imgs_var = Variable(imgs)
     labels_var = Variable(labels)
