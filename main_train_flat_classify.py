@@ -180,6 +180,9 @@ def validate(context, force_validate=False, is_test=False, force_save=False):
             forward_log(batch, context, training=False, dump_meter=False)
         val_iter += 1
 
+        if step == 0:
+            break
+
     forward_log(None, context, training=False, dump_meter=True)
 
     # save model
