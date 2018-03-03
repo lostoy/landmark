@@ -45,7 +45,7 @@ def load_checkpoint(context):
         return
     t_saver = Saver(model_dir=args.resume)
     print('==> loading checkpoint from {}'.format(args.resume))
-    if context['evaluate']:
+    if args.evaluate:
         checkpoint = t_saver.load_best()
     else:
         checkpoint = t_saver.load_latest()
