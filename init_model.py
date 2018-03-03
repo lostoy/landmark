@@ -18,14 +18,15 @@ def prepare_model(context):
     #         attrs = locals()
     #         ConfigWrapper.__init__(self, attrs)
     #         nn.Module.__init__(self, )
-    #         self.fc1 = nn.Linear(2, 2)
-    #         self.fc2 = nn.Linear(2, 2)
+    #         self.fc1 = nn.Linear(3, 1000)
+    #         self.fc2 = nn.Linear(3, 1000)
     #         self.forward_ptr = [0]
     #     def set_forward_ptr(self, ptr):
     #         self.forward_ptr = ptr
     #
     #     def forward(self, inps):
     #         outs = []
+    #         inps = inps[:, :, 0, 0]
     #         if 0 in self.forward_ptr:
     #             outs.append(self.fc1(inps))
     #         if 1 in self.forward_ptr:

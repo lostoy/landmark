@@ -61,7 +61,6 @@ def train(context):
     iter_ptr = [iter(t_loader) for t_loader in loader]
     dataset_ptr = 0
     timer.tic()
-
     while True:
         timer.tic()
         # advance dataset pointer, the datasets are visited in a round-robin style
@@ -142,6 +141,7 @@ def validate(context, force_validate=False, is_test=False, force_save=False):
     timer.tic()
 
     val_iter = 0
+
     while True:
         timer.tic()
         # advance dataset pointer, the datasets are visited in a round-robin style
@@ -155,6 +155,7 @@ def validate(context, force_validate=False, is_test=False, force_save=False):
                 break
         if not inputs:
             break
+
         batch = dict()
         batch['dataset_ptr'] = dataset_ptr
 
@@ -221,7 +222,6 @@ def forward_net(inputs, context, training=True):
         ys = torch.nn.parallel.data_parallel(model, imgs_var, args.gpu_id)[0]
     else:
         ys = model(imgs_var)[0]
-
     loss = crit[dataset_ptr](ys, labels_var)
 
     return dict(loss=loss.data.cpu(), ys=ys.data.cpu(), ys_var=ys, loss_var=loss)

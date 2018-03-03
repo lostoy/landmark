@@ -1,15 +1,14 @@
-import os
-import torch
-
-from torch.utils.data import Dataset
-from tools.config_wrapper import ConfigWrapper
-from dataset.utils import img_loader
 import json
-import numpy as np
 import math
+import os
 import zipfile
-import cv2
-import collections
+
+import numpy as np
+from torch.utils.data import Dataset
+
+from dataset.utils import img_loader
+from tools.config_wrapper import ConfigWrapper
+
 LOADER_DICT = dict(img=img_loader,)
 
 class ImageDataset(Dataset, ConfigWrapper):
@@ -66,6 +65,7 @@ class ImageDataset(Dataset, ConfigWrapper):
 
     def _get_mode(self, mode, item, context):
         item = self.n_sample_ind_iter[item]
+
         if 'img_name' in list(self.infos.values())[0][item]:
             img_name = list(self.infos.values())[0][item]['img_name']
         else:
@@ -95,6 +95,7 @@ class ImageDataset(Dataset, ConfigWrapper):
 
     def get_label(self, item, context):
         item = self.n_sample_ind_iter[item]
+
         info = list(self.infos.values())[0][item]
         label = info['label']
         if isinstance(label, list):

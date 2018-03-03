@@ -1,1 +1,1 @@
-from alexnet import alexnet_feature
+from .alexnet import alexnet_feature

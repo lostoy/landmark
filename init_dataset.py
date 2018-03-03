@@ -26,8 +26,8 @@ def prepare_dataset(context):
         t_train_dataset = ImageDataset(info_basedir=info_basedir, phase='train', split='0', to_read=('img', 'label'),
                                        transformer=dict(img=transforms.Compose([
                                            transforms.ToPILImage(),
-                                           transforms.Scale(resize_size),
-                                           transforms.RandomSizedCrop(input_size),
+                                           transforms.Resize(resize_size),
+                                           transforms.RandomResizedCrop(input_size),
                                            transforms.RandomHorizontalFlip(),
                                            transforms.ToTensor(),
                                            transforms.Normalize(mean=mean,
@@ -40,7 +40,7 @@ def prepare_dataset(context):
         t_test_dataset = ImageDataset(info_basedir=info_basedir, phase='valid', split='0', to_read=('img', 'label'),
                                       transformer=dict(img=transforms.Compose([
                                           transforms.ToPILImage(),
-                                          transforms.Scale(resize_size),
+                                          transforms.Resize(resize_size),
                                           transforms.CenterCrop(input_size),
                                           transforms.ToTensor(),
                                           transforms.Normalize(mean=mean,
