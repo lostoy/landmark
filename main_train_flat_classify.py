@@ -9,7 +9,7 @@ from torch.autograd.variable import Variable
 
 from cmdline import parse_args
 from init_dataset import prepare_dataset
-from init_logger import prepare_logger
+from init_logger import prepare_logger, load_checkpoint
 from init_model import prepare_model
 from metrics import step_adjust_learning_rate, poly_adjust_learning_rate, AverageMeter, accuracy, check_for_nan
 
@@ -42,6 +42,8 @@ def main():
 
     print('prepare model...')
     model, crit, optimizer = prepare_model(context)
+
+    load_checkpoint(args.resume)
 
     print('prepare logger...')
     writer, saver = prepare_logger(context)
@@ -171,7 +173,7 @@ def validate(context, force_validate=False, is_test=False, force_save=False):
         batch.update(outputs)
 
         # stats
-        forward_stats(batch, context, training=False)
+        forward_stats(batch, context, training=False, init_meters=val_iter == 0)
 
         batch_time.update(timer.toc())
         if val_iter % args.log_every_step == 0:
@@ -258,7 +260,7 @@ def backward_net(batch, context):
     return batch['lr'], batch['total_norm']
 
 
-def forward_stats(batch, context, training=True):
+def forward_stats(batch, context, training=True, init_meters=False):
     # @start interface
     dataset_ptr = batch['dataset_ptr']
 
@@ -279,7 +281,7 @@ def forward_stats(batch, context, training=True):
     # @end interface
 
     for meter_name, meter_func in zip(meter_names, meter_funcs):
-        if meter_name not in stats or not training:
+        if meter_name not in stats or (not training and init_meters):
             stats[meter_name] = AverageMeter()
         stats[meter_name].update(meter_func(batch), context['args'].batch_size)
 

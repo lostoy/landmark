@@ -1,7 +1,14 @@
-import subprocess, os, sys, datetime
-from saver import make_log_dirs, Saver
+import datetime
 import json
+import os
+import subprocess
+import sys
+
 from tensorboardX import SummaryWriter
+
+from saver import make_log_dirs, Saver
+
+
 def prepare_logger(context):
     args = context['args']
     model = context['model']
@@ -29,3 +36,31 @@ def prepare_logger(context):
     context['writer'] = writer
     context['saver'] = saver
     return writer, saver
+
+
+def load_checkpoint(context):
+    args = context['args']
+    model = context['model']
+    if args.resume == '':
+        return
+    t_saver = Saver(model_dir=args.resume)
+    print('==> loading checkpoint from {}'.format(args.resume))
+    if context['evaluate']:
+        checkpoint = t_saver.load_best()
+    else:
+        checkpoint = t_saver.load_latest()
+    if checkpoint:
+        best_metric = checkpoint['best_metric']
+        model.load_state_dict(checkpoint['model_state_dict'])
+        if 'step' in checkpoint:
+            step = checkpoint['step']
+        else:
+            step = 0
+        if args.step != -1:
+            step = args.step
+        print("==> loaded checkpoint {} (step {}, best_metric {})".format(args.resume,
+                                                                          step, best_metric))
+
+        context['step'] = step
+    else:
+        raise RuntimeError("==> no checkpoint at: {}".format(args.resume))
