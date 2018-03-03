@@ -273,7 +273,7 @@ def forward_stats(batch, context, training=True):
                    # '{}_top100_meter'.format(dataset_ptr)
                    ]
 
-    meter_funcs = [lambda batch: batch['loss'].numpy()[0],
+    meter_funcs = [lambda batch: batch['loss'].numpy(),
                    lambda batch: accuracy(batch['ys'], batch['labels'], [1])[0][0],
                    lambda batch: accuracy(batch['ys'], batch['labels'], [5])[0][0],
                    # lambda batch: accuracy(batch['ys'], batch['labels'], [100])[0],
