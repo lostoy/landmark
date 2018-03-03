@@ -182,6 +182,7 @@ def validate(context, force_validate=False, is_test=False, force_save=False):
 
         if step == 0:
             break
+        timer.tic()
 
     forward_log(None, context, training=False, dump_meter=True)
 
