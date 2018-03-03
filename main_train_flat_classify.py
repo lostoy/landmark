@@ -173,9 +173,6 @@ def validate(context, force_validate=False, is_test=False, force_save=False):
         # stats
         forward_stats(batch, context, training=False)
 
-        # main backward
-        backward_net(batch, context)
-
         batch_time.update(timer.toc())
         if val_iter % args.log_every_step == 0:
             forward_log(batch, context, training=False, dump_meter=False)
@@ -295,9 +292,13 @@ def forward_log(batch, context, training=True, dump_meter=True):
     stats = context['stats_train' if training else 'stats_val']
 
     if batch is not None:
-        lr = batch['lr']
-        total_norm = batch['total_norm']
 
+        if training:
+            total_norm = batch['total_norm']
+            lr = batch['lr']
+        else:
+            total_norm = 0
+            lr = 0
         print('========================{}======================='.format('training' if training else 'validating'))
         print('  time: {time} \t run_id: {run_id}\t'
               'step: [{step}/{max_step}]\n'
