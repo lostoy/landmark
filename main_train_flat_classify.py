@@ -23,8 +23,8 @@ def prepare_stats(context):
                                   )
 
     context['stats_val'] = dict(batch_time=AverageMeter(),
-                                  data_time=AverageMeter(),
-                                  )
+                                data_time=AverageMeter(),
+                                )
     context['timer'] = Timer()
 
     return context['step'], context['best_metric'], context['stats_train'], context['stats_val'], context['timer']
@@ -192,8 +192,8 @@ def validate(context, force_validate=False, is_test=False, force_save=False):
         is_best, metric = forward_check_metric(context)
 
         info_dict = {
-        'best_metric': context['best_metric'],
-        'step': step
+            'best_metric': context['best_metric'],
+            'step': step
         }
         my_save_checkpoint(saver, model=model, info_dict=info_dict, is_best=is_best, step=step)
 
@@ -273,9 +273,9 @@ def forward_stats(batch, context, training=True):
                    # '{}_top100_meter'.format(dataset_ptr)
                    ]
 
-    meter_funcs = [lambda batch: batch['loss'].numpy(),
-                   lambda batch: accuracy(batch['ys'], batch['labels'], [1])[0][0],
-                   lambda batch: accuracy(batch['ys'], batch['labels'], [5])[0][0],
+    meter_funcs = [lambda batch: float(batch['loss'].numpy()),
+                   lambda batch: float(accuracy(batch['ys'], batch['labels'], [1])[0][0]),
+                   lambda batch: float(accuracy(batch['ys'], batch['labels'], [5])[0][0]),
                    # lambda batch: accuracy(batch['ys'], batch['labels'], [100])[0],
                    ]
 
@@ -298,12 +298,11 @@ def forward_log(batch, context, training=True, dump_meter=True):
         lr = batch['lr']
         total_norm = batch['total_norm']
 
-
         print('========================{}======================='.format('training' if training else 'validating'))
         print('  time: {time} \t run_id: {run_id}\t'
               'step: [{step}/{max_step}]\n'
               '  lr {lr:.6f}\td_norm {total_norm:.3f}\n'
-              .format(
+            .format(
             step=step, max_step=args.max_step, batch_time=stats['batch_time'],
             data_time=stats['data_time'], lr=lr, run_id=args.run_id,
             time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), total_norm=total_norm))
