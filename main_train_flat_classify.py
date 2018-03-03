@@ -265,13 +265,13 @@ def forward_stats(batch, context, training=True):
 
     meter_names = ['{}_loss_meter'.format(dataset_ptr),
                    '{}_top1_meter'.format(dataset_ptr),
-                   # '{}_top10_meter'.format(dataset_ptr),
+                   '{}_top5_meter'.format(dataset_ptr),
                    # '{}_top100_meter'.format(dataset_ptr)
                    ]
 
     meter_funcs = [lambda batch: batch['loss'].numpy()[0],
                    lambda batch: accuracy(batch['ys'], batch['labels'], [1])[0][0],
-                   # lambda batch: accuracy(batch['ys'], batch['labels'], [10])[0],
+                   lambda batch: accuracy(batch['ys'], batch['labels'], [5])[0],
                    # lambda batch: accuracy(batch['ys'], batch['labels'], [100])[0],
                    ]
 
@@ -305,7 +305,7 @@ def forward_log(batch, context, training=True, dump_meter=True):
             time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), total_norm=total_norm))
         for mt_name, mt in stats.items():
             print('  {mt_name} {mt.val:.4f} ({mt.avg:.4f})\t'.format(mt_name=mt_name, mt=mt))  # , end='', flush=True)
-        print()
+        print('\n')
         print('================================================')
 
     if dump_meter:

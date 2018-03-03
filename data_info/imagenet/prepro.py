@@ -31,7 +31,8 @@ def get_infos(synset_names):
 
 def mv_valid_files(in_dir):
     import tqdm
-    with open('/data/yingwei/ILSVRC2012_devkit_t12/data/ILSVRC2012_validation_ground_truth.txt', 'r') as f:
+    with open('/data/yingwei/dataset/imagenet/ILSVRC2012_devkit_t12/data/ILSVRC2012_validation_ground_truth.txt',
+              'r') as f:
         labels = f.readlines()
     with open('./synsets.txt', 'r') as f:
         synsets = f.readlines()
@@ -49,6 +50,6 @@ def mv_valid_files(in_dir):
         os.rename(os.path.join(in_dir, img_name), os.path.join(out_dir, img_name))
 
 if __name__ == '__main__':
-    synset_names = get_vocab()
-    get_infos(synset_names)
-    # mv_valid_files('/data/yingwei/dataset/imagenet/ILSVRC2012_img_val')
+    # synset_names = get_vocab()
+    # get_infos(synset_names)
+    mv_valid_files('/data/yingwei/dataset/imagenet/ILSVRC2012_img_val')
