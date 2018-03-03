@@ -26,7 +26,7 @@ def parse_args():
     parser.add_argument('--lr_decay_step', nargs='+', type=int)
 
     parser.add_argument('--lr_decay_gamma', default=0.1, type=float)
-    parser.add_argument('--weight_decay', default=1e-4, type=float)
+    parser.add_argument('--weight_decay', default=5e-4, type=float)
     parser.add_argument('--grad_clip', default=100, type=float)
 
     parser.add_argument('--acc_grad', default=0, type=int)
@@ -45,17 +45,6 @@ def parse_args():
     if args.run_id == '':
         args.run_id = id_generator()
         print('run_id: {}'.format(args.run_id))
-
-    if args.max_step == -1:
-        args.max_step = 3500
-    else:
-        args.max_step = args.max_step * args.update_every_step
-    if args.lr_decay_step == -1:
-        args.lr_decay_step = [1500]
-    else:
-        args.lr_decay_step = [i * args.update_every_step for i in args.lr_decay_step]
-
-    args.save_every_step = args.max_step/25
 
     args.gpu_id = args.gpu_id.split(',')
     args.gpu_id = [int(r) for r in args.gpu_id]
