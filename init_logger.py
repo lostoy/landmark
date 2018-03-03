@@ -51,6 +51,7 @@ def load_checkpoint(context):
         checkpoint = t_saver.load_latest()
     if checkpoint:
         best_metric = checkpoint['best_metric']
+        context['best_metric'] = best_metric
         model.load_state_dict(checkpoint['model_state_dict'])
         if 'step' in checkpoint:
             step = checkpoint['step']

@@ -43,12 +43,13 @@ def main():
     print('prepare model...')
     model, crit, optimizer = prepare_model(context)
 
-    load_checkpoint(context)
+
 
     print('prepare logger...')
     writer, saver = prepare_logger(context)
 
     step, best_prec1, stats_train, stats_test, timer = prepare_stats(context)
+    load_checkpoint(context)
     print('start training...')
     train(context)
 
