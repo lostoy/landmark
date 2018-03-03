@@ -18,15 +18,15 @@ def parse_args():
 
     parser.add_argument('--max_step', default=-1, type=int)
 
-    parser.add_argument('--batch_size', default=128, type=int)
-    parser.add_argument('--lr', default=1e-3, type=float,
+    parser.add_argument('--batch_size', default=256, type=int)
+    parser.add_argument('--lr', default=1e-1, type=float,
                         metavar='LR', help='initial learning rate')
 
     parser.add_argument('--lr_decay_mode', default='step', type=str)
     parser.add_argument('--lr_decay_step', nargs='+', type=int)
 
     parser.add_argument('--lr_decay_gamma', default=0.1, type=float)
-    parser.add_argument('--weight_decay', default=5e-4, type=float)
+    parser.add_argument('--weight_decay', default=1e-4, type=float)
     parser.add_argument('--grad_clip', default=100, type=float)
 
     parser.add_argument('--acc_grad', default=0, type=int)

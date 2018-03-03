@@ -11,8 +11,8 @@ pretrained_settings = {
             'resize_size': 256,
             'input_size': [224, 224], # resize 354
             'input_range': [0, 1],
-            'mean': [0.5, 0.5, 0.5],
-            'std': [0.5, 0.5, 0.5],
+            'mean': [0.485, 0.456, 0.406],
+            'std': [0.229, 0.224, 0.225],
             'num_classes': 1000
         }
     }
