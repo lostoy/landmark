@@ -106,5 +106,5 @@ venv.bak/
 
 data/
 .idea/
-./logs
-./tmp
+logs/
+tmp/
