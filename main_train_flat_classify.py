@@ -317,9 +317,8 @@ def forward_log(batch, context, training=True, dump_meter=True):
 
     if dump_meter:
         for mt_name, mt in stats.items():
-            if training:
-                writer.add_scalar('{}/{}'.format('train' if training else 'val', mt_name),
-                                  mt.val if training else mt.avg, step)
+            writer.add_scalar('{}/{}'.format('train' if training else 'val', mt_name),
+                              mt.val if training else mt.avg, step)
 
 def forward_check_metric(context):
     # @start interface
