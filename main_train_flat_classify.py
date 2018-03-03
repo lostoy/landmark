@@ -43,7 +43,7 @@ def main():
     print('prepare model...')
     model, crit, optimizer = prepare_model(context)
 
-    load_checkpoint(args.resume)
+    load_checkpoint(context)
 
     print('prepare logger...')
     writer, saver = prepare_logger(context)
