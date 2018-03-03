@@ -1,10 +1,12 @@
-import os
-import torch
 import json
-from copy import deepcopy
+import os
+import shutil
+
 import glob2
 import parse
-import shutil
+import torch
+
+
 class Saver(object):
     def __init__(self, model_dir, max_to_keep=5):
         self.model_dir = model_dir
@@ -43,7 +45,7 @@ class Saver(object):
 
         if is_best:
             shutil.copyfile(model_path, os.path.join(self.model_dir, 'model_best.pth.tar'))
-
+        print('save done!')
     def load_latest(self):
         model_list = self.list_model_dir()
         if len(model_list) == 0:
