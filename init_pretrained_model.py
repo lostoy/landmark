@@ -1,5 +1,5 @@
 from torch import optim
-
+from models.pretrained import *
 
 def prepare_model(context):
     train_dataset = context['train_dataset']
