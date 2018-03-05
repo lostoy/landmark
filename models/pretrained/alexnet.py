@@ -20,7 +20,7 @@ pretrained_settings = {
 
 
 class AlexNet(nn.Module):
-    def __init__(self, num_classes=1000):
+    def __init__(self, num_classes=1000, has_fc=False):
         super(AlexNet, self).__init__()
         self.features = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size=11, stride=4, padding=2),
@@ -37,15 +37,25 @@ class AlexNet(nn.Module):
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2),
         )
-        self.classifier = nn.Sequential(
-            nn.Dropout(),
-            nn.Linear(256 * 6 * 6, 4096),
-            nn.ReLU(inplace=True),
-            nn.Dropout(),
-            nn.Linear(4096, 4096),
-            nn.ReLU(inplace=True),
-            #nn.Linear(4096, num_classes),
-        )
+        if has_fc:
+            self.classifier = nn.Sequential(
+                nn.Dropout(),
+                nn.Linear(256 * 6 * 6, 4096),
+                nn.ReLU(inplace=True),
+                nn.Dropout(),
+                nn.Linear(4096, 4096),
+                nn.ReLU(inplace=True),
+                nn.Linear(4096, num_classes)
+            )
+        else:
+            self.classifier = nn.Sequential(
+                nn.Dropout(),
+                nn.Linear(256 * 6 * 6, 4096),
+                nn.ReLU(inplace=True),
+                nn.Dropout(),
+                nn.Linear(4096, 4096),
+                nn.ReLU(inplace=True),
+            )
         self.pool = None
         self.feature_dim = 4096
     def forward(self, x):
@@ -53,6 +63,28 @@ class AlexNet(nn.Module):
         x = x.view(x.size(0), 256 * 6 * 6)
         x = self.classifier(x)
         return x
+
+
+def alexnet(pretrained='imagenet'):
+    r"""AlexNet model architecture from the
+    `"One weird trick..." <https://arxiv.org/abs/1404.5997>`_ paper.
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    settings = pretrained_settings['alexnet']['imagenet']
+    model = AlexNet(has_fc=True)
+    if pretrained:
+        model.load_state_dict(model_zoo.load_url(settings['url']))
+
+    model.input_space = settings['input_space']
+    model.input_size = settings['input_size']
+    model.input_range = settings['input_range']
+    model.resize_size = settings['resize_size']
+
+    model.mean = settings['mean']
+    model.std = settings['std']
+
+    return model
 
 
 def alexnet_feature(pretrained='imagenet'):
@@ -75,5 +107,3 @@ def alexnet_feature(pretrained='imagenet'):
     model.std = settings['std']
 
     return model
-
-
