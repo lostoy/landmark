@@ -120,9 +120,9 @@ def train(context):
         if context['step'] >= context['args'].max_step:
             break
 
-        if check_for_nan(model.parameters()):
-            print('nan in parameters')
-            sys.exit(-1)
+        # if check_for_nan(model.parameters()):
+        #    print('nan in parameters')
+        #    sys.exit(-1)
         batch_time.update(timer.toc())
         timer.tic()
 
