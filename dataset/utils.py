@@ -19,8 +19,14 @@ def img_loader(img_path, config):
     # with open(img_path, 'rb') as f:
     #     with Image.open(f) as img:
     #         return img.convert('RGB')
-    return accimage.Image(img_path)
-
+    try:
+        img = accimage.Image(img_path)
+        return img
+    except:
+        print('load with PIL')
+        with open(img_path, 'rb') as f:
+            with Image.open(f) as img:
+                return img.convert('RGB')
 
 if __name__ == '__main__':
     pass
