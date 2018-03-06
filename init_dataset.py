@@ -25,7 +25,7 @@ def prepare_dataset(context):
     for info_basedir in args.info_basedir:
         t_train_dataset = ImageDataset(info_basedir=info_basedir, phase='train', split='0', to_read=('img', 'label'),
                                        transformer=dict(img=transforms.Compose([
-                                           transforms.ToPILImage(),
+                                           # transforms.ToPILImage(),
                                            transforms.RandomResizedCrop(input_size),
                                            transforms.RandomHorizontalFlip(),
                                            transforms.ToTensor(),
@@ -38,7 +38,7 @@ def prepare_dataset(context):
 
         t_test_dataset = ImageDataset(info_basedir=info_basedir, phase='valid', split='0', to_read=('img', 'label'),
                                       transformer=dict(img=transforms.Compose([
-                                          transforms.ToPILImage(),
+                                          # transforms.ToPILImage(),
                                           transforms.Resize(resize_size),
                                           transforms.CenterCrop(input_size),
                                           transforms.ToTensor(),
