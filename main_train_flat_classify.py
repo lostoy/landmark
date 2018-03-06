@@ -107,7 +107,7 @@ def train(context):
         # main backward
         backward_net(batch, context)
 
-        batch_time.update(timer.toc())
+
 
         if context['step'] % context['args'].log_every_step == 0:
             forward_log(batch, context, training=True, dump_meter=True)
@@ -123,6 +123,7 @@ def train(context):
         if check_for_nan(model.parameters()):
             print('nan in parameters')
             sys.exit(-1)
+        batch_time.update(timer.toc())
         timer.tic()
 
 def validate(context, force_validate=False, is_test=False, force_save=False):
