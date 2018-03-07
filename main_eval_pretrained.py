@@ -292,7 +292,7 @@ def forward_stats(batch, context, training=True, init_meters=False):
     for meter_name, meter_func in zip(meter_names, meter_funcs):
         if meter_name not in stats or (not training and init_meters):
             stats[meter_name] = AverageMeter()
-        stats[meter_name].update(meter_func(batch), context['args'].batch_size)
+        stats[meter_name].update(meter_func(batch), batch['labels'].size(0))
 
 
 def forward_log(batch, context, training=True, dump_meter=True):
