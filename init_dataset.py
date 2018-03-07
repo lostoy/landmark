@@ -60,13 +60,14 @@ def prepare_dataset(context):
                 transforms.ToTensor(),
                 normalize,
             ]))
+        t_train_dataset.n_class = 1000
         t_test_dataset = datasets.ImageFolder('./data/imagenet/valid', transforms.Compose([
             transforms.Resize(256),
             transforms.CenterCrop(224),
             transforms.ToTensor(),
             normalize,
         ]))
-
+        t_test_dataset.n_class = 1000
         t_train_loader = DataLoader(t_train_dataset, batch_size=args.batch_size, shuffle=True,
                                     num_workers=args.n_worker,
                                     pin_memory=args.gpu_id is not None)
