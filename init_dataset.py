@@ -23,29 +23,49 @@ def prepare_dataset(context):
     test_loader = []
 
     for info_basedir in args.info_basedir:
-        t_train_dataset = ImageDataset(info_basedir=info_basedir, phase='train', split='0', to_read=('img', 'label'),
-                                       transformer=dict(img=transforms.Compose([
-                                           # transforms.ToPILImage(),
-                                           transforms.RandomResizedCrop(input_size),
-                                           transforms.RandomHorizontalFlip(),
-                                           transforms.ToTensor(),
-                                           transforms.Normalize(mean=mean,
-                                                                std=std)
-                                       ])),
-                                       run_n_sample=0,
-                                       # args.max_step*args.batch_size,
-                                       shuffle=False)
+        # t_train_dataset = ImageDataset(info_basedir=info_basedir, phase='train', split='0', to_read=('img', 'label'),
+        #                                transformer=dict(img=transforms.Compose([
+        #                                    # transforms.ToPILImage(),
+        #                                    transforms.RandomResizedCrop(input_size),
+        #                                    transforms.RandomHorizontalFlip(),
+        #                                    transforms.ToTensor(),
+        #                                    transforms.Normalize(mean=mean,
+        #                                                         std=std)
+        #                                ])),
+        #                                run_n_sample=0,
+        #                                # args.max_step*args.batch_size,
+        #                                shuffle=False)
+        #
+        # t_test_dataset = ImageDataset(info_basedir=info_basedir, phase='valid', split='0', to_read=('img', 'label'),
+        #                               transformer=dict(img=transforms.Compose([
+        #                                   # transforms.ToPILImage(),
+        #                                   transforms.Resize(resize_size),
+        #                                   transforms.CenterCrop(input_size),
+        #                                   transforms.ToTensor(),
+        #                                   transforms.Normalize(mean=mean,
+        #                                                        std=std)
+        #                               ])),
+        #                               run_n_sample=0, shuffle=False)
 
-        t_test_dataset = ImageDataset(info_basedir=info_basedir, phase='valid', split='0', to_read=('img', 'label'),
-                                      transformer=dict(img=transforms.Compose([
-                                          # transforms.ToPILImage(),
-                                          transforms.Resize(resize_size),
-                                          transforms.CenterCrop(input_size),
-                                          transforms.ToTensor(),
-                                          transforms.Normalize(mean=mean,
-                                                               std=std)
-                                      ])),
-                                      run_n_sample=0, shuffle=False)
+        normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                         std=[0.229, 0.224, 0.225])
+        from torchvision import datasets
+        import torchvision
+        torchvision.set_image_backend('accimage')
+        t_train_dataset = datasets.ImageFolder(
+            './data/imagenet/train',
+            transforms.Compose([
+                transforms.RandomResizedCrop(224),
+                transforms.RandomHorizontalFlip(),
+                transforms.ToTensor(),
+                normalize,
+            ]))
+        t_test_dataset = datasets.ImageFolder('./data/imagenet/valid', transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            normalize,
+        ]))
 
         t_train_loader = DataLoader(t_train_dataset, batch_size=args.batch_size, shuffle=True,
                                     num_workers=args.n_worker,

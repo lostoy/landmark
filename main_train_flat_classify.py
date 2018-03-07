@@ -252,10 +252,10 @@ def backward_net(batch, context):
         raise ValueError('lr_decay_mode wrong')
 
     total_norm = 0
-    if (not args.acc_grad) or (step % args.update_every_step == 0):
-        total_norm = torch.nn.utils.clip_grad_norm(model.parameters(), args.grad_clip)
-        optimizer.step()
-        optimizer.zero_grad()
+    #if (not args.acc_grad) or (step % args.update_every_step == 0):
+        #total_norm = torch.nn.utils.clip_grad_norm(model.parameters(), args.grad_clip)
+    optimizer.step()
+    optimizer.zero_grad()
 
     batch['lr'] = lr
     batch['total_norm'] = total_norm
