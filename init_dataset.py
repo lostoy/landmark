@@ -6,9 +6,13 @@ from dataset.img_dataset import ImageDataset
 
 
 def prepare_dataset(context):
+
     args = context['args']
     basenet_name = args.basenet_name
-    basenet_module = importlib.import_module('models.pretrained.{}'.format(basenet_name))
+    try:
+        basenet_module = importlib.import_module('models.pretrained.{}'.format(basenet_name))
+    except:
+        basenet_module = importlib.import_module('models.pretrained.torchvision_models')
     pretrained_settings = basenet_module.pretrained_settings
 
     resize_size = pretrained_settings[basenet_name]['imagenet']['resize_size']

@@ -1,2 +1,1 @@
-from .alexnet import alexnet
-from .alexnet import alexnet_feature
+from .torchvision_models import alexnet, resnet18

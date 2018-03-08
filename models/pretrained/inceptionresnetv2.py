@@ -293,6 +293,7 @@ class InceptionResNetV2(nn.Module):
         self.conv2d_7b = BasicConv2d(2080, 1536, kernel_size=1, stride=1)
         self.avgpool_1a = nn.AvgPool2d(8, count_include_pad=False)
         self.last_linear = nn.Linear(1536, num_classes)
+        self.pool = lambda x: self.avgpool_1a(x).view(x.size(0), -1)
 
     def features(self, input):
         x = self.conv2d_1a(input)
@@ -313,9 +314,7 @@ class InceptionResNetV2(nn.Module):
         return x
 
     def logits(self, features):
-        x = self.avgpool_1a(features)
-        x = x.view(x.size(0), -1)
-        x = self.last_linear(x)
+        x = self.last_linear(features)
         return x
 
     def forward(self, input):
@@ -324,17 +323,15 @@ class InceptionResNetV2(nn.Module):
         return x
 
 
-def inceptionresnetv2(num_classes=1000, pretrained='imagenet'):
+def inceptionresnetv2(pretrained='imagenet'):
     r"""InceptionResNetV2 model architecture from the
     `"InceptionV4, Inception-ResNet..." <https://arxiv.org/abs/1602.07261>`_ paper.
     """
     if pretrained:
         settings = pretrained_settings['inceptionresnetv2'][pretrained]
-        assert num_classes == settings['num_classes'], \
-            "num_classes should be {}, but is {}".format(settings['num_classes'], num_classes)
 
         # both 'imagenet'&'imagenet+background' are loaded from same parameters
-        model = InceptionResNetV2(num_classes=1001)
+        model = InceptionResNetV2(num_classes=1000)
         model.load_state_dict(model_zoo.load_url(settings['url']))
 
         if pretrained == 'imagenet':
@@ -357,19 +354,22 @@ def inceptionresnetv2_feature(pretrained='imagenet'):
     r"""InceptionResNetV2 model architecture from the
     `"InceptionV4, Inception-ResNet..." <https://arxiv.org/abs/1602.07261>`_ paper.
     """
-    if pretrained:
-        settings = pretrained_settings['inceptionresnetv2'][pretrained]
 
-        # both 'imagenet'&'imagenet+background' are loaded from same parameters
-        model = InceptionResNetV2(num_classes=1001)
+    settings = pretrained_settings['inceptionresnetv2'][pretrained]
+
+    # both 'imagenet'&'imagenet+background' are loaded from same parameters
+    model = InceptionResNetV2(num_classes=1001)
+
+    if pretrained:
         model.load_state_dict(model_zoo.load_url(settings['url']))
 
-        model.input_space = settings['input_space']
-        model.input_size = settings['input_size']
-        model.input_range = settings['input_range']
+    model.input_space = settings['input_space']
+    model.input_size = settings['input_size']
+    model.input_range = settings['input_range']
 
-        model.mean = settings['mean']
-        model.std = settings['std']
+    model.mean = settings['mean']
+    model.std = settings['std']
+
 
     return model
 '''

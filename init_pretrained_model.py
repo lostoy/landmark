@@ -14,7 +14,7 @@ def prepare_model(context):
             attrs = locals()
             ConfigWrapper.__init__(self, attrs)
             nn.Module.__init__(self, )
-            self.net = globals()[basenet_name]('imagenet' if pretrain else None)
+            self.net = globals()[basenet_name](pretrained='imagenet' if pretrain else None)
             self.forward_ptr = [0]
 
         def set_forward_ptr(self, ptr):
@@ -22,7 +22,7 @@ def prepare_model(context):
 
         def forward(self, inps):
             outs = []
-            outs.append(self.net(inps))
+            outs.append(self.net.last_linear(self.net.pool(self.net(inps))))
             return outs
 
     model = Dummy(args.basenet_name, True)
