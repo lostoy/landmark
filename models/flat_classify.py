@@ -15,7 +15,7 @@ class FlatClassify(nn.Module, ConfigWrapper):
         self.basenet = globals()[basenet_name](pretrained='imagenet' if pretrain else None)
 
         for i, n in enumerate(n_class):
-            self.__setattr__('fcs_{}'.format(i), nn.Linear(self.basenet.feature_dim, n))
+            self.__setattr__('fcs_{}'.format(i), nn.Linear(self.basenet.last_linear.in_features, n))
 
         self.forward_ptr = [0]
 
