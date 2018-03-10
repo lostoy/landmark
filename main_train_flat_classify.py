@@ -311,16 +311,17 @@ def forward_log(batch, context, training=True, dump_meter=True):
             step=step, max_step=args.max_step, batch_time=stats['batch_time'],
             data_time=stats['data_time'], lr=lr, run_id=args.run_id,
             time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), total_norm=total_norm))
-        for mt_name, mt in stats.items():
-            print('  {mt_name} {mt.val:.4f} ({mt.avg:.4f})\t'.format(mt_name=mt_name, mt=mt))  # , end='', flush=True)
-        print('\n')
-        print('================================================')
+        # for mt_name, mt in stats.items():
+        #     print('  {mt_name} {mt.val:.4f} ({mt.avg:.4f})\t'.format(mt_name=mt_name, mt=mt))  # , end='', flush=True)
+        # print('\n')
+
 
     if dump_meter:
         for mt_name, mt in stats.items():
             writer.add_scalar('{}/{}'.format('train' if training else 'val', mt_name),
                               mt.val if training else mt.avg, step)
             print('   {mt_name} {mt.val:.4f}({mt.avg:.4f})\t'.format(mt_name=mt_name, mt=mt))
+    print('================================================')
 def forward_check_metric(context):
     # @start interface
     stats = context['stats_val']
